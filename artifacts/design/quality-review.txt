@@ -1,0 +1,60 @@
+Scale — independent quality assessment B
+Date: 2026-09-11
+Scope: read-only source review of PRODUCT.md, DESIGN.md, src/App.tsx, src/styles.css, src/game/{model,runtime,worker}.ts and package.json. Only this report was written.
+
+Detector execution (exactly once):
+node /Users/sarthak/Desktop/fleet/.agents/skills/impeccable/scripts/detect.mjs --json /Users/sarthak/Desktop/fleet/scale/src/App.tsx
+Exit status: 0
+Detector JSON output:
+[]
+The empty heuristic result is not accessibility or state-integrity proof.
+
+Audit score: 12/20 (provisional; source evidence, not measured browser performance)
+Accessibility: 2/4
+Performance: 3/4
+Theming: 3/4
+Responsive: 2/4
+Integrity: 2/4
+
+Critical/high-priority findings:
+1. Unnamed responsive navigation buttons. App.tsx:152 gives nav buttons no aria-label; styles.css max-width:1020 hides .nav-item>span with display:none. Icon-only tablet navigation loses textual accessible names. At max-width:600, the laboratory label remains hidden. Add persistent aria-labels and aria-current/pressed semantics. Modal at App.tsx:173 also lacks aria-labelledby/aria-label; visible heading is not a dialog accessible name automatically.
+2. Concurrent tabs can overwrite company progress. App.tsx:33-40 writes scale.company.v1 every three seconds and pagehide, with no ownership lock, version comparison, storage listener, or conflict UI. Each tab has its own worker and independently advanced company. Closing an older tab can overwrite a newer session's project/progress. Browser inventory already showed two Scale tabs on the same origin; no destructive reproduction was attempted.
+3. Storage failure is invisible on phones. All save errors/unreadable-save warnings only appear in .local-save (App.tsx:151); max-width:600 sets .local-save display:none. A phone user can keep playing while no progress can be retained without seeing a warning. Keep failure states in an always-visible role=status/alert surface.
+4. Sandbox freeze does not survive close/reopen. runtime.ts:93 suspends by sandbox presence, leaving company.paused unchanged. App.tsx saves only company. A company that was running at branch time is saved as running; reload drops sandbox and advances offline company time. Either persist a frozen save explicitly with resume intent, or clearly disclose that sandbox freeze is session-only. This is inferred directly from serialization/constructor behavior, not interactively tested.
+
+Other material findings:
+- Readability is weaker than the workbench promise: much operational text is 8–10 CSS px, with chart footnotes reaching 7px on phones. Nodes are additionally scaled down to fit, making their metadata smaller still. Zoom exists, but node reading/selection should not depend on precision interaction.
+- Phone controls often remain 30–40px, including 30px canvas tools and 30px transport. The large touch-action:none canvas blocks normal touch scrolling over a substantial phone region. Responsive visual verification remains needed.
+- Corrupt-save protection is helpful but permanent for the session: protectSave is captured during mount. Explicit Start a new company resets the worker but cannot clear this flag, so the replacement company is not persisted. An explicit recovery flow should allow replacement after confirmation while preserving an export/backup.
+- Sandbox traffic slider records history and rebuilds/warms the engine on every input event (160 simulation advances each warm). Rapid scrubbing can queue expensive work and makes undo step through slider ticks. Worker isolation protects main-thread computation but command latency may still be poor. Batch/coalesce traffic previews and record one undo entry per committed gesture.
+- Native progress elements lack accessible labels; speed and selected navigation states rely on classes only. Component node buttons and zoom controls do have useful aria labels; node pressed state and decision disclosure expanded state are present.
+- Tokens and reduced-motion fallback are strong foundations. Numerous literal colors remain beyond declared tokens; DESIGN.md says system sans but implementation loads DM Sans and Manrope. Resolve the design-doc mismatch. No dark theme was required, so absence was not treated as a failure.
+- Positive integrity foundations: simulation is worker-owned, save schema validation exists, unreadable saves are preserved, offline progress is capped, expenditures are checked in runtime, sandbox copies architecture and resets deterministic seeds, undo/redo histories are bounded.
+
+Browser evidence limitation:
+IAB creation returned Browser is not available. Chrome inventory exposed existing tabs 673499919 (Scale review) and 673499916 (Scale build), both at http://127.0.0.1:4188/. Attempting read-only getTab(673499919) returned that it already belongs to another browser session. No fresh app tab was created because doing so starts another autosaving simulation against shared company data. No browser mutations, viewport changes, screenshot captures, source edits, installs, commits, or external writes were performed. Screenshot paths: none. Parent reviewer can supply visual evidence from its existing owned tab.
+
+FINAL REASSESSMENT — supersedes provisional score above
+Date: 2026-09-11
+Final audit: 16/20
+Accessibility 3/4; Performance 3/4; Theming 3/4; Responsive 4/4; Integrity 3/4.
+No remaining demonstrated P0/P1 in the reviewed Web Locks browser path. This is a bounded review, not proof of universal accessibility or all-browser persistence safety.
+
+Evidence: reread current App.tsx, styles.css, worker.ts and DESIGN.md. Viewed parent-captured artifacts/design/after-1440.png, after-768.png and after-390.png through view_image. Desktop layout keeps inspector beside the architecture; tablet topology wraps coherently and inspector moves below; phone topology is vertical with legible nodes and no obvious clipping in the supplied full-page capture. Parent reports a successfully blocked second tab with a clear recovery screen and 299 earlier passing tests; these checks were not independently rerun. Final test run is pending per parent. Detector was NOT rerun; the [] output above belongs to the initial source revision.
+
+Previous finding dispositions:
+1. Unnamed responsive navigation: RESOLVED by persistent aria-labels. Unnamed guide dialog: RESOLVED by aria-labelledby. Selected nav/speed state semantics remain minor open items (no aria-current or aria-pressed found).
+2. Concurrent-tab overwrites: RESOLVED for Web Locks-capable browsers via exclusive single writer; parent verified second-tab rejection. Fallback optimistic raw-value comparison improves detection but is not atomic across browser processes; do not claim the same single-writer guarantee when Web Locks is absent.
+3. Invisible mobile storage failure: RESOLVED by an always-visible conditional role=status alert outside the hidden header element.
+4. Sandbox freeze lost on reload: RESOLVED by serializing paused:true while sandbox is active.
+5. Small scaled nodes/readability: substantially RESOLVED; responsive vertical/reflow topology and larger operational text verified in the supplied screenshots. Some supporting labels remain small but the previous severe fit shrink is absent in these states.
+6. Small coarse-pointer controls/canvas scrolling: substantially RESOLVED by coarse-pointer 44px targets and canvas pan-y. Node buttons still have touch-action:none while touch drag is explicitly disabled; swipes beginning on nodes can therefore fail to scroll (P2).
+7. Corrupt-save reset permanently unsavable: RESOLVED by unlockSave clearing protection on explicit reset. Snapshot timing means save should ideally wait for reset acknowledgement before overwriting the preserved value.
+8. Slider warm/rebuild on every input: OPEN P2. Worker isolation is good, but input scrubbing can enqueue redundant warm runs and many undo entries. No measured regression claimed.
+9. Unlabelled project progress controls: OPEN P2. Nearby visible prose helps sighted users but is not an accessible progress name.
+10. Token literals and design-document typography mismatch: OPEN P3. Fonts are self-hosted, which helps privacy/offline readiness; DESIGN.md still says system sans while implementation loads DM Sans/Manrope.
+
+Additional P2 integrity issue identified in revised save code:
+App.tsx updates originalRaw before localStorage.setItem succeeds. A transient quota/storage write failure leaves originalRaw ahead of actual storage. The next save can incorrectly classify this as an external-tab conflict and stop the simulation. Assign the revision/raw baseline only after the write succeeds. Current behavior preserves the last successful save and displays a warning, so this was not classified P1, but it reduces recovery quality.
+
+Limits: no new tabs, no interactive mutation, no detector rerun, no source edits, no fresh performance trace analysis in this reviewer. Screenshot evidence is the three named parent-captured files. Their visual quality does not independently establish keyboard behavior, contrast ratios, coarse touch behavior, or storage failure recovery. The report is the only file changed by this assessment.

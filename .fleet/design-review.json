@@ -1,0 +1,111 @@
+{
+  "$schema": "fleet.design-review.v1",
+  "version": 1,
+  "project": "scale",
+  "target": "Standalone Scale game and sandbox",
+  "surfaceMode": "operate",
+  "mode": "overhaul",
+  "register": "product",
+  "context": {
+    "product": "PRODUCT.md",
+    "design": "DESIGN.md"
+  },
+  "direction": {
+    "references": [
+      "https://breakscale.tech/"
+    ],
+    "probes": [],
+    "selected": "warm-architecture-workbench",
+    "approval": "agent-selected",
+    "before": "",
+    "library": {
+      "strategy": "upstream-first",
+      "primary": "custom",
+      "sources": [
+        "https://breakscale.tech/",
+        "https://github.com/xevrion/breakscale/tree/781b7258d0f0fc8c06199795e554d4ac8031ccde/src/sim"
+      ],
+      "runtime": "selective",
+      "customReplacement": {
+        "used": true,
+        "authorization": "owner-requested",
+        "reason": "Owner requested standalone Scale with a substantially redesigned, smooth original UI. The reviewed Breakscale canvas and inspector do not own persistent company economics, engineering project choices or sandbox-to-company workflow. Reuse is limited to its MIT simulation; native semantic controls compose the new interface."
+      }
+    },
+    "contract": {
+      "purpose": "Scale helps engineers develop systems judgment by growing a simulated company, diagnosing bottlenecks, comparing interventions, and observing consequences.",
+      "purposeSource": "PRODUCT.md; owner-provided Scale brief and standalone confirmation",
+      "canonicalPurpose": "Scale helps engineers develop systems judgment by growing a simulated company, diagnosing bottlenecks, comparing interventions, and observing consequences.",
+      "purposeAlignment": "match",
+      "driftNote": "New local-only project; no existing published product or portfolio contract replaced.",
+      "audience": "Engineers learning practical systems tradeoffs through play.",
+      "job": "Diagnose a capacity incident, experiment without spending, then deliver a justified change.",
+      "thesis": "Warm paper and evergreen instrumentation put a readable living architecture at the center.",
+      "system": "Manrope headings, DM Sans body, semantic green/amber/red, 8px spacing rhythm, fixed desktop inspector and responsive wrapped/vertical graph. Self-hosted fonts.",
+      "signature": "Measured traffic flows through selectable infrastructure; the same company can branch into a safe experiment.",
+      "risk": "A calm light workbench carries an idle game rather than arcade decoration; motion and escalating consequences supply the energy."
+    }
+  },
+  "evidence": {
+    "screenshots": [
+      {
+        "width": 390,
+        "path": "artifacts/design/after-390.png"
+      },
+      {
+        "width": 768,
+        "path": "artifacts/design/after-768.png"
+      },
+      {
+        "width": 1440,
+        "path": "artifacts/design/after-1440.png"
+      }
+    ],
+    "projectCheck": {
+      "command": "pnpm test && pnpm build && pnpm format:check && pnpm measure",
+      "status": "pass"
+    },
+    "critique": {
+      "score": 35,
+      "maximum": 40
+    },
+    "audit": {
+      "score": 16,
+      "maximum": 20
+    },
+    "unresolved": {
+      "p0": 0,
+      "p1": 0
+    },
+    "detector": {
+      "posture": "advisory",
+      "findings": []
+    },
+    "comprehension": {
+      "status": "not-applicable",
+      "reviewer": "",
+      "answers": {
+        "product": "",
+        "audience": "",
+        "value": "",
+        "mechanism": "",
+        "proof": "",
+        "nextAction": ""
+      },
+      "purposeScore": {
+        "product": 0,
+        "audience": 0,
+        "value": 0,
+        "mechanism": 0,
+        "proof": 0,
+        "nextAction": 0,
+        "total": 0
+      },
+      "mismatches": []
+    }
+  },
+  "ownerFeedback": {
+    "decision": "agent-selected",
+    "note": "Owner approved standalone Scale and direct implementation. Final visual direction has not yet received owner acceptance. Independent reviews and browser verification are recorded in artifacts/design and artifacts/verification."
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "seed": 42,
+  "durationSeconds": 20,
+  "stepMs": 50,
+  "note": "Synthetic calibrated model; not hardware benchmarks.",
+  "rows": [
+    {
+      "workload": "saas",
+      "intervention": "baseline",
+      "offered": 300,
+      "goodput": 188,
+      "p99": 416,
+      "errorPercent": 38.8,
+      "dbQps": 307,
+      "dbBusy": 100,
+      "costPerMonth": 69
+    },
+    {
+      "workload": "saas",
+      "intervention": "database",
+      "offered": 300,
+      "goodput": 291,
+      "p99": 105,
+      "errorPercent": 0,
+      "dbQps": 294,
+      "dbBusy": 79,
+      "costPerMonth": 150
+    },
+    {
+      "workload": "saas",
+      "intervention": "index",
+      "offered": 300,
+      "goodput": 318,
+      "p99": 77,
+      "errorPercent": 0,
+      "dbQps": 320,
+      "dbBusy": 58,
+      "costPerMonth": 69
+    },
+    {
+      "workload": "saas",
+      "intervention": "cache",
+      "offered": 300,
+      "goodput": 286,
+      "p99": 91,
+      "errorPercent": 0,
+      "dbQps": 78,
+      "dbBusy": 39,
+      "costPerMonth": 249
+    },
+    {
+      "workload": "saas",
+      "intervention": "horizontal",
+      "offered": 300,
+      "goodput": 211,
+      "p99": 439,
+      "errorPercent": 27.2,
+      "dbQps": 294,
+      "dbBusy": 100,
+      "costPerMonth": 113
+    },
+    {
+      "workload": "analytics",
+      "intervention": "baseline",
+      "offered": 300,
+      "goodput": 178,
+      "p99": 492,
+      "errorPercent": 39.2,
+      "dbQps": 289,
+      "dbBusy": 100,
+      "costPerMonth": 69
+    },
+    {
+      "workload": "analytics",
+      "intervention": "database",
+      "offered": 300,
+      "goodput": 290,
+      "p99": 336,
+      "errorPercent": 5.4,
+      "dbQps": 324,
+      "dbBusy": 100,
+      "costPerMonth": 150
+    },
+    {
+      "workload": "analytics",
+      "intervention": "index",
+      "offered": 300,
+      "goodput": 158,
+      "p99": 501,
+      "errorPercent": 43,
+      "dbQps": 278,
+      "dbBusy": 100,
+      "costPerMonth": 69
+    },
+    {
+      "workload": "analytics",
+      "intervention": "cache",
+      "offered": 300,
+      "goodput": 167,
+      "p99": 495,
+      "errorPercent": 42.5,
+      "dbQps": 287,
+      "dbBusy": 100,
+      "costPerMonth": 249
+    },
+    {
+      "workload": "analytics",
+      "intervention": "horizontal",
+      "offered": 300,
+      "goodput": 176,
+      "p99": 505,
+      "errorPercent": 40.8,
+      "dbQps": 299,
+      "dbBusy": 100,
+      "costPerMonth": 113
+    }
+  ]
+}

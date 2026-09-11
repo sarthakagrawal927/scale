@@ -1,0 +1,42 @@
+Scale — assessment A, final reassessment
+Date: 2026-09-11
+Scope: Independent read-only design-workflow review. No detector rerun.
+Decision: PASS for bounded design review. Critique 35/40. Unresolved P0: 0. Unresolved P1: 0.
+
+Evidence inspected:
+- PRODUCT.md and DESIGN.md
+- src/App.tsx and src/styles.css
+- artifacts/design/after-1440.png
+- artifacts/design/after-768.png
+- artifacts/design/after-390.png
+- Earlier independent live desktop inspection and engineering disclosure.
+The earlier reviewer tab is no longer present. No new browser tab was opened during final reassessment.
+
+Nielsen heuristic quality scores (0 absent/broken, 4 strong):
+1. Visibility of system status: 4/4. Pressure and pause now coexist; component queues, error target, sampled trace and savings status provide useful observability.
+2. Match with real-world concepts: 4/4. Cash balance and $2.50/user are accurate labels; component work time is distinguished from end-to-end tail latency.
+3. User control and freedom: 3/4. Sandbox undo/redo and return are clear. Phone tap-to-inspect and vertical scrolling preserve the core loop.
+4. Consistency and standards: 4/4. Coherent semantic color, controls, selected states and documented responsive layout.
+5. Error prevention: 3/4. Upfront/recurring costs and engineering duration precede implementation; visible cash and active-project blockers explain disabled actions.
+6. Recognition over recall: 3/4. Contextual inspector and early launch shortcut make progression understandable. Returning from the inspector to a distant phone node still involves scrolling.
+7. Flexibility and efficiency: 3/4. Desktop fit, zoom and drag; keyboard controls; readable phone topology. Tablet node touch behavior has a minor limitation below.
+8. Aesthetic and minimalist design: 4/4. Warm paper and evergreen have a product-specific infrastructure identity. No overlap or clipped primary content in the three supplied screenshots.
+9. Error diagnosis and recovery: 4/4. Pressure diagnosis, sampled request trace, visible action blockers and recovery pathways support evidence-based choices.
+10. Help and documentation: 3/4. Named guide explains simulation clocks, workload assumptions and limits. More contextual explanations can remain future polish.
+TOTAL: 35/40.
+
+Initial P1 disposition:
+- Critical microtype / unreadable scaled phone graph: resolved by raised operational text and vertical readable phone nodes; tablet wraps topology.
+- Phone canvas consuming vertical swipes: resolved for vertical layout by pan-y on canvas and node inline touchAction.
+- Silent disabled project actions: resolved with cash-shortfall and current-project remaining-time copy.
+- Misleading cash runway and rounded per-user revenue: resolved.
+Additional polish delivered: early launch shortcut, named guide, accessible navigation names, separate pressure/pause state, larger coarse-pointer controls, request trace.
+
+Remaining P2 polish, non-blocking:
+- Tablet/coarse-pointer nodes retain touch-action:none while start() ignores touch pointers. Prefer pan-y for coarse pointers to avoid dead scroll patches on those nodes.
+- The vertical phone topology plus inspector makes a long page. A quiet return-to-architecture control after inspection could reduce repeated scrolling.
+- A few peripheral labels remain small; preserve the improved operational type if future telemetry is added.
+
+Validation boundary:
+This reassessment independently verifies composition, responsive screenshots and relevant implementation paths. Parent reports actual drag delta 45/30 with stable camera; full launch -> database incident -> sandbox Redis -> undo/redo -> analytics counterexample -> return -> 18h paid project -> database recovery and subsequent app bottleneck; save/reload confirmation. Those runtime checks were reported by the parent and were not replayed by this reviewer to avoid the single-tab save lock.
+No source code or simulation state was modified by this reviewer. Only this requested report was written.
